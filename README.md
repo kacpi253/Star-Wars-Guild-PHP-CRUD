@@ -33,16 +33,20 @@ The database relies on several interconnected tables:
 
 ## 📸 Screenshots
 
-*(Placeholders - replace with your application screenshots and database ERD diagram)*
+![Main Terminal Dashboard](screenshots/mainpage.png)
+*Figure 1: Main Guild terminal dashboard and navigation hub.*
 
-![Guild Table Browser](screenshots/table_view.png)
-*Figure 1: Archive browser with Edit and Delete capabilities.*
+![Sector Archive Browser](screenshots/ClientsTableViev.png)
+*Figure 2: Dynamic archive table view with in-place Edit and Delete action triggers.*
 
-![Record Editing](screenshots/edit_record.png)
-*Figure 2: Dynamic form for updating existing guild records.*
+![Record Editing Form](screenshots/ClientsTableEdit.png)
+*Figure 3: Dynamic record editing interface with automated foreign key resolution.*
 
-![Database ERD Schema](screenshots/erd_diagram.png)
-*Figure 3: Relational entity-relationship diagram generated in phpMyAdmin.*
+![Missions & Bounties Overview](screenshots/MissionTable.png)
+*Figure 4: Complex mission data presentation with status badges and contract details.*
+
+![Advanced SQL System Reports](screenshots/QueryViev.png)
+*Figure 5: Live multi-table reporting utilizing SQL JOINs and GROUP BY aggregations.*
 
 ## 🚀 How to Run (Local Environment)
 
