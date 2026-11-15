@@ -1,0 +1,6 @@
+"Bounty_ID","Client_ID","Target_ID","Reward_Credits","Capture_Condition","Bounty_State","Issue_Date"
+"1","1","1","50000","Żywy","Zakończone","2026-05-18 16:56:04"
+"2","3","3","100000","Żywy lub Martwy","Otwarte","2026-05-18 16:56:04"
+"3","2","2","20000","Żywy","W toku","2026-05-18 16:56:04"
+"4","4","3","250000","Żywy","Otwarte","2026-05-18 16:56:04"
+"5","1","5","75000","Żywy","Otwarte","2026-05-18 16:56:04"

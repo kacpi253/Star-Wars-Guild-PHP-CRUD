@@ -1,0 +1,420 @@
+/* =========================================================
+   Gwiezdne Wojny: Nevarro Tactical Datapad (Retro-Futurism)
+   UI/UX: Cassette Futurism, Grimy CRT, Monochromatic Amber
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Share+Tech+Mono&family=VT323&display=swap');
+
+:root {
+    /* Kolory - Brudny, Wytarty Sprzęt */
+    --bg-dark: #0a0a08;
+    --bg-panel: #141412;
+    --bg-card: #1c1c18;
+    
+    /* Neony CRT */
+    --amber: #ffb000;
+    --amber-dim: rgba(255, 176, 0, 0.2);
+    --amber-glow: rgba(255, 176, 0, 0.5);
+    
+    --pale-blue: #7fb5c2;
+    --pale-blue-dim: rgba(127, 181, 194, 0.2);
+    
+    /* Masywne fizyczne krawędzie (Cassette Futurism) */
+    --border-chunky: #3a3a33;
+    --border-highlight: #5c5c52;
+    --border-shadow: #050504;
+
+    /* Czcionki */
+    --font-main: 'Share Tech Mono', monospace;
+    --font-crt: 'VT323', monospace;
+    --font-header: 'Black Ops One', cursive;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--amber);
+    font-family: var(--font-main);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-size: 1.1rem;
+    
+    /* Efekt CRT Scanlines i brudu ekranowego */
+    background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.5) 2px, rgba(0, 0, 0, 0.5) 4px),
+        radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.9) 100%);
+    background-attachment: fixed;
+    text-shadow: 0 0 3px var(--amber-glow);
+}
+
+/* Menu nawigacyjne - Fizyczny panel */
+nav {
+    background-color: var(--bg-panel);
+    border-bottom: 6px solid var(--border-chunky);
+    border-bottom-color: var(--border-shadow);
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.9);
+    position: relative;
+    z-index: 10;
+}
+
+nav a {
+    font-family: var(--font-header);
+    background-color: var(--border-chunky);
+    color: var(--amber);
+    text-decoration: none;
+    padding: 10px 25px;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    
+    /* Efekt fizycznego, wypukłego przycisku */
+    border: 4px solid var(--border-highlight);
+    border-bottom-color: var(--border-shadow);
+    border-right-color: var(--border-shadow);
+    margin: 0 10px;
+    display: inline-block;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+    transition: 0.1s all;
+}
+
+nav a:active {
+    /* Efekt wciśnięcia guzika */
+    border-top-color: var(--border-shadow);
+    border-left-color: var(--border-shadow);
+    border-bottom-color: var(--border-highlight);
+    border-right-color: var(--border-highlight);
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+nav a:hover, nav a.active {
+    background-color: #4a4a42;
+    color: #fff;
+    text-shadow: 0 0 8px var(--amber);
+}
+
+/* Główne kontenery - Zużyte, metalowe ramki */
+.container, .container-small, .sidebar, .search-box {
+    background-color: var(--bg-card);
+    /* Grube, asymetryczne granice przypominające obudowę */
+    border: 6px solid var(--border-chunky);
+    border-top-color: var(--border-highlight);
+    border-left-color: var(--border-highlight);
+    border-bottom-color: var(--border-shadow);
+    border-right-color: var(--border-shadow);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.9), 10px 10px 20px rgba(0, 0, 0, 0.8);
+    position: relative;
+    z-index: 3;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+}
+
+.container-small {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+}
+
+.layout {
+    display: flex;
+    max-width: 1300px;
+    margin: 30px auto;
+    position: relative;
+    z-index: 3;
+}
+
+/* Nagłówki */
+h1, h2, h3 {
+    font-family: var(--font-header);
+    color: var(--pale-blue);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 0 0 8px var(--pale-blue-dim);
+    margin: 0 0 20px 0;
+}
+
+h1 {
+    font-size: 2.8rem;
+    text-align: center;
+    border-bottom: 4px double var(--pale-blue);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+h2 {
+    border-bottom: 2px solid var(--border-highlight);
+    padding-bottom: 15px;
+}
+
+/* Kafelki ze statystykami (Tactical Dashboard) */
+.stats-grid {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
+}
+
+.stat-card {
+    background-color: var(--bg-panel);
+    border: 4px solid var(--border-chunky);
+    border-top-color: var(--border-shadow);
+    border-left-color: var(--border-shadow);
+    border-bottom-color: var(--border-highlight);
+    border-right-color: var(--border-highlight);
+    padding: 20px;
+    width: 28%;
+    text-align: center;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+}
+
+.stat-card h3 {
+    font-size: 1.1rem;
+    color: var(--pale-blue);
+    border-bottom: 1px solid var(--border-chunky);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.stat-card .number {
+    font-family: var(--font-crt);
+    font-size: 4rem;
+    font-weight: 400;
+    color: var(--amber);
+    text-shadow: 0 0 15px var(--amber-glow);
+}
+
+/* Pasek boczny (view_table.php) */
+.sidebar {
+    width: 240px;
+    padding: 25px;
+    margin-right: 30px;
+}
+
+.sidebar h3 {
+    font-size: 1.2rem;
+}
+
+.sidebar a {
+    font-family: var(--font-crt);
+    display: block;
+    color: var(--amber);
+    text-decoration: none;
+    padding: 12px 10px;
+    border-bottom: 2px dashed var(--border-chunky);
+    font-size: 1.4rem;
+    text-transform: uppercase;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background-color: rgba(255, 176, 0, 0.1);
+    color: #fff;
+    padding-left: 20px;
+    border-left: 6px solid var(--amber);
+}
+
+/* Główny obszar z danymi */
+.content {
+    flex-grow: 1;
+}
+
+/* Tabele - Masywny sprzęt wojskowy */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 2px;
+    background-color: var(--bg-dark);
+    border: 4px solid var(--border-shadow);
+    margin-bottom: 30px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.9);
+}
+
+th, td {
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-chunky);
+    padding: 12px 15px;
+    font-size: 1.2rem;
+    font-family: var(--font-crt);
+    letter-spacing: 1px;
+}
+
+th {
+    background-color: var(--border-chunky);
+    color: var(--pale-blue);
+    font-family: var(--font-header);
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    text-shadow: none;
+    border-top-color: var(--border-highlight);
+    border-left-color: var(--border-highlight);
+}
+
+tr:hover td {
+    background-color: rgba(255, 176, 0, 0.05);
+}
+
+/* Formularze wyszukiwania (view_table.php) */
+.search-box {
+    padding: 20px;
+    margin-top: 30px;
+    display: inline-block;
+}
+
+input, select {
+    background-color: var(--bg-dark);
+    color: var(--amber);
+    border: 4px solid var(--border-shadow);
+    border-bottom-color: var(--border-highlight);
+    border-right-color: var(--border-highlight);
+    padding: 10px 15px;
+    font-family: var(--font-crt);
+    font-size: 1.3rem;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--pale-blue);
+    box-shadow: inset 0 0 10px var(--pale-blue-dim);
+}
+
+/* Przyciski Akcji */
+button, .btn-primary {
+    font-family: var(--font-header);
+    background-color: var(--border-chunky);
+    color: var(--amber);
+    text-decoration: none;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 4px solid var(--border-highlight);
+    border-bottom-color: var(--border-shadow);
+    border-right-color: var(--border-shadow);
+    display: inline-block;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition: 0.1s all;
+}
+
+button:active, .btn-primary:active {
+    border-top-color: var(--border-shadow);
+    border-left-color: var(--border-shadow);
+    border-bottom-color: var(--border-highlight);
+    border-right-color: var(--border-highlight);
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+button:hover, .btn-primary:hover {
+    background-color: #4a4a42;
+    color: #fff;
+    text-shadow: 0 0 8px var(--amber);
+}
+
+/* Specjalny przycisk usuwania */
+.btn-delete {
+    font-family: var(--font-header);
+    background-color: #3b1414;
+    color: #ff5555;
+    text-decoration: none;
+    padding: 6px 12px;
+    font-size: 1rem;
+    border: 3px solid #6b2424;
+    border-bottom-color: #1a0808;
+    border-right-color: #1a0808;
+    display: inline-block;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.btn-delete:active {
+    border-top-color: #1a0808;
+    border-left-color: #1a0808;
+    border-bottom-color: #6b2424;
+    border-right-color: #6b2424;
+    transform: translate(2px, 2px);
+}
+
+.btn-delete:hover {
+    background-color: #5c1b1b;
+    color: #fff;
+    text-shadow: 0 0 5px #ff5555;
+}
+
+/* Formularze dodawania (add_record.php) */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--pale-blue);
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"] {
+    width: calc(100% - 38px);
+}
+
+.btn-block {
+    width: 100%;
+    margin-top: 30px;
+    font-size: 1.5rem;
+}
+
+/* Komunikaty Systemowe */
+.msg {
+    padding: 15px 20px;
+    margin-bottom: 30px;
+    border: 4px solid;
+    font-family: var(--font-crt);
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+.success {
+    background-color: #1a2b1a;
+    border-color: #2eb82e;
+    border-bottom-color: #0f3d0f;
+    border-right-color: #0f3d0f;
+    color: #47d147;
+    text-shadow: 0 0 5px #47d147;
+}
+
+.error {
+    background-color: #2b1a1a;
+    border-color: #b82e2e;
+    border-bottom-color: #3d0f0f;
+    border-right-color: #3d0f0f;
+    color: #d14747;
+    text-shadow: 0 0 5px #d14747;
+}
+
+.back-link {
+    display: block;
+    margin-top: 30px;
+    text-align: center;
+    color: var(--pale-blue);
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px dashed var(--border-chunky);
+    padding-bottom: 5px;
+}
+
+.back-link:hover {
+    color: #fff;
+    border-color: var(--pale-blue);
+    text-shadow: 0 0 8px var(--pale-blue);
+}
