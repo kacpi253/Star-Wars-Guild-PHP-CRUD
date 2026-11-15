@@ -316,6 +316,37 @@ button:hover, .btn-primary:hover {
     text-shadow: 0 0 8px var(--amber);
 }
 
+/* Specjalny przycisk edycji */
+.btn-edit {
+    font-family: var(--font-header);
+    background-color: #142a3b;
+    color: #55ccff;
+    text-decoration: none;
+    padding: 6px 12px;
+    font-size: 1rem;
+    border: 3px solid #244b6b;
+    border-bottom-color: #0b1720;
+    border-right-color: #0b1720;
+    display: inline-block;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-right: 6px;
+}
+
+.btn-edit:active {
+    border-top-color: #0b1720;
+    border-left-color: #0b1720;
+    border-bottom-color: #244b6b;
+    border-right-color: #244b6b;
+    transform: translate(2px, 2px);
+}
+
+.btn-edit:hover {
+    background-color: #1b3d57;
+    color: #fff;
+    text-shadow: 0 0 5px #55ccff;
+}
+
 /* Specjalny przycisk usuwania */
 .btn-delete {
     font-family: var(--font-header);

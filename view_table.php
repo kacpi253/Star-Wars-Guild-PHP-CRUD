@@ -9,16 +9,37 @@ if (!in_array($current_table, $allowed_tables)) {
 }
 
 $search_query = "";
-if (isset($_GET['search']) && !empty($_GET['pattern'])) {
-    $pattern = $conn->real_escape_string($_GET['pattern']);
-    $column = $conn->real_escape_string($_GET['column']);
-    $search_query = " WHERE $column LIKE '%$pattern%'";
+$search_param = "";
+$search_column = "";
+
+if (isset($_GET['search']) && !empty($_GET['pattern']) && !empty($_GET['column'])) {
+    $search_column = $_GET['column'];
+    $search_param = "%" . $_GET['pattern'] . "%";
 }
 
-$sql = "SELECT * FROM " . $current_table . $search_query;
 $result = null;
 try {
-    $result = $conn->query($sql);
+    if (!empty($search_param)) {
+        // Weryfikacja poprawności nazwy kolumny przed zapytaniem
+        $col_check = $conn->query("SHOW COLUMNS FROM `$current_table`");
+        $valid_columns = [];
+        if ($col_check) {
+            while ($c = $col_check->fetch_assoc()) {
+                $valid_columns[] = $c['Field'];
+            }
+        }
+        
+        if (in_array($search_column, $valid_columns)) {
+            $stmt = $conn->prepare("SELECT * FROM `$current_table` WHERE `$search_column` LIKE ?");
+            $stmt->bind_param("s", $search_param);
+            $stmt->execute();
+            $result = $stmt->get_result();
+        } else {
+            $result = $conn->query("SELECT * FROM `$current_table`");
+        }
+    } else {
+        $result = $conn->query("SELECT * FROM `$current_table`");
+    }
 } catch (Exception $e) {
     // Ignorujemy błędy braku bazy przy testowaniu
 }
@@ -74,12 +95,16 @@ require_once 'includes/navbar.php';
 
                         <?php endforeach; ?>
                         
-                        <!-- Przycisk Usuń (pobieramy pierwszą kolumnę jako ID) -->
+                        <!-- Przyciski akcji: Edytuj oraz Usuń (pobieramy pierwszą kolumnę jako ID) -->
                         <td style="text-align: center; white-space: nowrap; vertical-align: middle;">
                             <?php 
                             $pk_name = $fields[0]; 
                             $pk_value = $row[$pk_name];
                             ?>
+                            <a href="edit_record.php?table=<?php echo urlencode($current_table); ?>&pk=<?php echo urlencode($pk_name); ?>&id=<?php echo urlencode($pk_value); ?>" 
+                               class="btn-edit">
+                               ✎ EDYTUJ
+                            </a>
                             <a href="delete_record.php?table=<?php echo urlencode($current_table); ?>&pk=<?php echo urlencode($pk_name); ?>&id=<?php echo urlencode($pk_value); ?>" 
                                onclick="return confirm('Czy na pewno chcesz usunąć ten wpis z archiwów?');"
                                class="btn-delete">

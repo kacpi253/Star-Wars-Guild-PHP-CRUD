@@ -11,19 +11,36 @@ if (isset($_GET['table']) && isset($_GET['pk']) && isset($_GET['id'])) {
         die("Odmowa dostępu do tego sektora bazy.");
     }
 
-    $pk = $conn->real_escape_string($_GET['pk']);
-    $id = $conn->real_escape_string($_GET['id']);
+    $pk = $_GET['pk'];
+    $id = $_GET['id'];
 
-    // Zapytanie usuwające rekord
-    $sql = "DELETE FROM $table WHERE $pk = '$id'";
+    // Walidacja poprawności nazwy kolumny klucza
+    $col_check = $conn->query("SHOW COLUMNS FROM `$table`");
+    $valid_columns = [];
+    if ($col_check) {
+        while ($c = $col_check->fetch_assoc()) {
+            $valid_columns[] = $c['Field'];
+        }
+    }
 
+    if (!in_array($pk, $valid_columns)) {
+        die("Nieprawidłowy identyfikator kolumny.");
+    }
+
+    // Bezpieczne zapytanie usuwające z użyciem Prepared Statement
     try {
-        if ($conn->query($sql) === TRUE) {
+        $stmt = $conn->prepare("DELETE FROM `$table` WHERE `$pk` = ?");
+        if (!$stmt) {
+            throw new Exception($conn->error);
+        }
+        $stmt->bind_param("s", $id);
+        
+        if ($stmt->execute()) {
             // Przekierowanie powrotne po udanym usunięciu
             header("Location: view_table.php?table=" . urlencode($table));
             exit();
         } else {
-            die("Nie udało się usunąć wpisu: " . $conn->error);
+            die("Nie udało się usunąć wpisu: " . $stmt->error);
         }
     } catch (Exception $e) {
         die("<div style='color:red; background:#111; padding:20px; font-family:monospace;'>BŁĄD SQL: " . $e->getMessage() . "<br><br><a href='view_table.php?table=" . urlencode($table) . "' style='color:#00ffcc;'>Powrót</a></div>");
