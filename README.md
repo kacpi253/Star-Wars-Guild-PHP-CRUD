@@ -21,15 +21,69 @@ A web-based CRUD (Create, Read, Update, Delete) application designed to manage a
 * **Frontend:** HTML5, pure CSS (`assets/css/style.css`) with Star Wars sci-fi terminal styling
 * **Architecture:** Modular PHP includes (`header.php`, `navbar.php`, `footer.php`) and a central database configuration (`config/db.php`).
 
-## 🗄️ Database Schema
+## 🗄️ Database Schema & Interactive ERD
 
-The database relies on several interconnected tables:
-* `Bounty_Hunters` - Registered guild members.
-* `Clients` - Individuals or factions (e.g., Empire, New Republic) issuing bounties.
-* `Targets` - The individuals being hunted.
-* `Bounties` - The core contract linking a Client, a Target, and a Reward.
-* `Missions` - The assignment of a specific Bounty to a Hunter.
-* `Equipment` & `Hunter_Gear` - Many-to-many relationship tracking a hunter's arsenal.
+The relational database architecture is defined across 7 normalized tables interconnected via strict foreign key constraints and cascading operations.
+
+### Visual ERD (Rendered natively via Mermaid)
+
+```mermaid
+erDiagram
+    CLIENTS ||--o{ BOUNTIES : "issues"
+    TARGETS ||--o{ BOUNTIES : "is target of"
+    BOUNTIES ||--o{ MISSIONS : "assigned as"
+    BOUNTY_HUNTERS ||--o{ MISSIONS : "undertakes"
+    BOUNTY_HUNTERS ||--o{ HUNTER_GEAR : "purchases"
+    EQUIPMENT ||--o{ HUNTER_GEAR : "item supplied"
+
+    CLIENTS {
+        int Client_ID PK
+        varchar Name
+        enum Faction
+    }
+    TARGETS {
+        int Target_ID PK
+        varchar Name
+        varchar Crime
+        varchar Last_Known_Location
+    }
+    BOUNTY_HUNTERS {
+        int Hunter_ID PK
+        varchar Name
+        enum Guild_Rank
+    }
+    EQUIPMENT {
+        int Equipment_ID PK
+        varchar Item_Name
+        int Cost
+    }
+    BOUNTIES {
+        int Bounty_ID PK
+        int Client_ID FK
+        int Target_ID FK
+        int Reward_Credits
+        enum Capture_Condition
+        enum Bounty_State
+        datetime Issue_Date
+    }
+    MISSIONS {
+        int Mission_ID PK
+        int Bounty_ID FK
+        int Hunter_ID FK
+        enum Puck_Status
+        datetime Completion_Date
+    }
+    HUNTER_GEAR {
+        int Transaction_ID PK
+        int Hunter_ID FK
+        int Equipment_ID FK
+        int Quantity
+        int Purchase_Price
+        datetime Purchase_Date
+    }
+```
+
+> 📖 **Full Schema Specification:** Detailed column constraints, indexes, triggers (`BEFORE INSERT`, `AFTER INSERT`), and data dictionaries are documented in [DATABASE_SCHEMA.md](DATABASE_SCHEMA.md).
 
 ## 📸 Screenshots
 
